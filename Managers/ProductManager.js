@@ -37,12 +37,11 @@ class ProductManager{
             const productosFiltrados = productos.filter(prod => prod.id !== Number(id));
     
             if (productos.length === productosFiltrados.length) {
-                return { error: "Producto no encontrado" };
+                console.log("Producto no encontrado");
+            } else {
+                await fs.writeFile(this.file, JSON.stringify(productosFiltrados, null, 2));
+                console.log(`Producto con ID ${id} eliminado correctamente`);
             }
-    
-            await fs.writeFile(this.file, JSON.stringify(productosFiltrados, null, 2));
-    
-            console.log(`Producto con ID ${id} eliminado correctamente`);
     
         } catch (error) {
             console.error("Error al eliminar producto:", error);
@@ -57,12 +56,11 @@ class ProductManager{
             const index = productos.findIndex(prod => prod.id === Number(id));
 
             if (index === -1) {
-                return { error: "Producto no encontrado" };
+                console.log("Producto no encontrado");
+            }else{
+                productos[index] = { ...productos[index], ...productoActualizado };
+                await fs.writeFile(this.file, JSON.stringify(productos, null, 2));
             }
-
-            productos[index] = { ...productos[index], ...productoActualizado };
-
-            await fs.writeFile(this.file, JSON.stringify(productos, null, 2));
     
         } catch (error) {
             console.error("Error al actualizar producto:", error);
