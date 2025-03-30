@@ -19,7 +19,7 @@ class ProductManager{
         try {
             const data = await fs.readFile(this.file, "utf-8")
             productos = JSON.parse(data)
-            const nuevoId = productos.length + 1
+            const nuevoId = productos.length > 0 ? Math.max(...productos.map(p => p.id)) + 1 : 1;
             const nuevoProducto = { id: nuevoId, ...producto };
             productos.push(nuevoProducto)
             await fs.writeFile(this.file, JSON.stringify(productos, null, 2))

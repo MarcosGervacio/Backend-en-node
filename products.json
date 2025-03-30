@@ -12,17 +12,6 @@
   },
   {
     "id": 2,
-    "title": "Remera",
-    "description": "Remera XL roja",
-    "code": "ASD22D",
-    "price": 111111,
-    "status": true,
-    "stock": 22,
-    "category": "remeras",
-    "thumbnails": []
-  },
-  {
-    "id": 3,
     "title": "Remeraa",
     "description": "Remera XL roja",
     "code": "ASD22D",
@@ -34,6 +23,17 @@
   },
   {
     "id": 4,
+    "title": "Remera",
+    "description": "Remera XL roja",
+    "code": "ASD22D",
+    "price": 111111,
+    "status": true,
+    "stock": 22,
+    "category": "remeras",
+    "thumbnails": []
+  },
+  {
+    "id": 5,
     "title": "Remera",
     "description": "Remera XL roja",
     "code": "ASD22D",

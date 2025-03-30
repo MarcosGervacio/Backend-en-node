@@ -11,7 +11,7 @@ app.use(express.json())
 app.get("/api/products" , async (req, res) => {
     try {
     const productos = await product.mostrarProductos()
-    res.send(productos)
+    res.json(productos)
     } catch (error) {
         res.status(500).json({ error: "Error al obtener los productos" });
     }
@@ -59,10 +59,6 @@ app.post("/api/products", async (req, res) =>{
             category,
             thumbnails
         };
-
-        if (!producto || Object.keys(producto).length === 0) {
-            return res.status(400).json({ error: "Falta el producto" });
-        }
 
         delete producto.id;
         await product.crearProducto(producto)
@@ -123,8 +119,14 @@ app.put("/api/products/:id", async (req, res) =>{
             return res.status(400).json({ error: "No se enviaron datos para actualizar" });
         }
         delete productoActualizado.id;
-        const resultado = await product.actualizarProducto(id, productoActualizado);
-        res.status(200).json(resultado);
+        const productos = await product.mostrarProductos()
+        const index = productos.findIndex(prod => prod.id === Number(id));
+            if (index === -1) {
+                return res.status(404).json({error: "producto no encontrado"})
+            }else{
+                await product.actualizarProducto(id, productoActualizado);
+        res.status(200).json("producto actualizado");
+            }
     }  catch (error) {
         console.error("Error al actualizar el producto:", error);
         res.status(500).json({ error: "Error interno del servidor" });
@@ -164,10 +166,10 @@ app.get("/api/carts/:cid", async (req, res) =>{
 })
 
 
+// http://localhost:8080/api/carts/:cid/product/:pid   -  POST  se agrega producto al carrito 
 app.post("/api/carts/:cid/product/:pid", async (req, res) =>{
     try{
-        const { cid } = req.params
-        const { pid } = req.params
+        const { cid, pid } = req.params
         const productos = await product.mostrarProductos()
         const productoEncontrado = productos.find(prod => prod.id === Number(pid))
         const carrito =  await cart.obtenerCarrito(cid)

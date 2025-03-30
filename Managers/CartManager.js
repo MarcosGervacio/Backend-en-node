@@ -28,7 +28,11 @@ class CartManager{
             const data = await fs.readFile(this.file, "utf-8")
             let carritos = JSON.parse(data)
             const carritoEncontrado = carritos.find(cart => cart.id === Number(id));
-            return carritoEncontrado.products
+            if(!carritoEncontrado){
+                console.log("Carrito no encontrado");
+            }else{
+                return carritoEncontrado.products
+            }
         } catch (error) {
             console.log(error);
         }   
