@@ -1,6 +1,6 @@
 import  fs  from 'fs/promises';
 
-class ProductManager{
+class productManager{
     constructor(){
         this.file = "products.json"
     }
@@ -69,4 +69,4 @@ class ProductManager{
 
 }
 
-export default ProductManager
+export default productManager

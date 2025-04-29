@@ -12,24 +12,35 @@
   },
   {
     "id": 2,
-    "title": "Remera",
-    "description": "Remera XL roja",
-    "code": "ASD22D",
-    "price": 111111,
+    "title": "Campera",
+    "description": "Campera XL negra",
+    "code": "ffeef",
+    "price": 434322,
     "status": true,
-    "stock": 22,
-    "category": "remeras",
+    "stock": 11,
+    "category": "camperas",
     "thumbnails": []
   },
   {
-    "id": 5,
-    "title": "Remera",
-    "description": "Remera XL roja",
-    "code": "ASD22D",
+    "id": 3,
+    "title": "Zapatillas",
+    "description": "Zapatilla nike roja",
+    "code": "fefefww",
+    "price": 2222222,
+    "status": true,
+    "stock": 22,
+    "category": "zapatillas",
+    "thumbnails": []
+  },
+  {
+    "id": 4,
+    "title": "Gorra",
+    "description": "Gorra verde",
+    "code": "rr333d",
     "price": 111111,
     "status": true,
     "stock": 22,
-    "category": "remeras",
+    "category": "gorras",
     "thumbnails": []
   }
 ]

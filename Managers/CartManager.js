@@ -1,9 +1,9 @@
 import  fs  from 'fs/promises';
-import ProductManager from "./ProductManager.js"
+import productManager from "./productManager.js"
 
-const product = new ProductManager()
+const product = new productManager()
 
-class CartManager{
+class cartManager{
     constructor(){
         this.file = "cart.json"
     }
@@ -69,4 +69,4 @@ class CartManager{
     
 }
 
-export default CartManager
+export default cartManager

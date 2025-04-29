@@ -1,0 +1,124 @@
+
+<form id="formulario-producto" class="container mt-4">
+  <div class="row mb-3">
+    <div class="col-md-6">
+      <input type="text" id="title" placeholder="Title" class="form-control" required>
+    </div>
+    <div class="col-md-6">
+      <input type="text" id="description" placeholder="Description" class="form-control" required>
+    </div>
+  </div>
+
+  <div class="row mb-3">
+    <div class="col-md-4">
+      <input type="text" id="code" placeholder="Code" class="form-control" required>
+    </div>
+    <div class="col-md-4">
+      <input type="number" id="price" placeholder="Price" class="form-control" required>
+    </div>
+    <div class="col-md-4">
+      <input type="number" id="stock" placeholder="Stock" class="form-control" required>
+    </div>
+  </div>
+
+  <div class="row mb-3">
+    <div class="col-12">
+      <input type="text" id="category" placeholder="Category" class="form-control" required>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-12 text-center">
+      <button type="submit" class="btn btn-primary">Agregar Producto</button>
+    </div>
+  </div>
+</form>
+
+<br><br>
+<h2 style="text-align: center;">Productos</h2>
+<br><br>
+
+<div class="mx-auto" style="width: 300px;">
+    <ul id="lista-productos">
+        {{#each productos}}
+            <li>{{title}} - ${{price}}
+              <button class="eliminarProducto btn btn-danger" value={{id}}>X</button>
+            </li>
+        {{/each}}
+    </ul>
+</div>
+
+<script>
+const socket = io();
+socket.on("actualizarProductos", (productos) => {
+    const listaProductos = document.getElementById("lista-productos");
+    listaProductos.innerHTML = ""; 
+
+    productos.forEach((producto) => {
+        const li = document.createElement("li");
+        li.textContent = `${producto.title} - $${producto.price}`;
+        
+
+        const botonEliminar = document.createElement("button");
+        botonEliminar.classList.add("eliminarProducto", "btn", "btn-danger");
+        botonEliminar.textContent = "X";
+        botonEliminar.value = producto.id;
+
+        botonEliminar.addEventListener('click', async () => {
+            await fetch(`http://localhost:8080/api/products/${producto.id}`, {
+            method: 'DELETE'
+        });
+        });
+
+        listaProductos.appendChild(li);
+        li.appendChild(botonEliminar);
+    });
+});
+
+
+const formulario = document.getElementById("formulario-producto");
+formulario.addEventListener("submit", async (e) => {
+        e.preventDefault(); 
+            const title = document.getElementById("title")
+            const description = document.getElementById("description")
+            const code = document.getElementById("code")
+            const price = document.getElementById("price")
+            const stock = document.getElementById("stock")
+            const category = document.getElementById("category")
+        const producto = {
+            title: title.value,
+            description: description.value,
+            code: code.value,
+            price: parseFloat(price.value),
+            status: true,
+            stock: parseInt(stock.value),
+            category: category.value,
+            thumbnails: []
+        };
+        await fetch("http://localhost:8080/api/products", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(producto)
+        });
+        title.value = "";
+        description.value  = "";
+        code.value= "";
+        price.value = "";
+        stock.value = "";
+        category.value = "";
+})
+
+
+let eliminarProducto = document.querySelectorAll('.eliminarProducto');
+eliminarProducto.forEach(boton => {
+    boton.addEventListener('click', () => {
+        const id = boton.value;
+        fetch(`http://localhost:8080/api/products/${id}`, {
+            method: 'DELETE'
+        })
+    })
+})
+
+</script>
