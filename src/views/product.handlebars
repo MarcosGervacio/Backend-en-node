@@ -1,0 +1,40 @@
+<h2>Detalles del Producto</h2>
+
+<ul>
+  <li><strong>ID:</strong> {{producto._id}}</li>
+  <li><strong>Título:</strong> {{producto.title}}</li>
+  <li><strong>Descripción:</strong> {{producto.description}}</li>
+  <li><strong>Precio:</strong> ${{producto.price}}</li>
+  <li><strong>Stock:</strong> {{producto.stock}}</li>
+  <li><strong>Categoría:</strong> {{producto.category}}</li>
+</ul>
+
+<a href="/realTimeProducts" class="btn btn-secondary">Volver</a>
+<button class="btn btn-success" id="agregarAlCarrito" value="{{producto._id}}">
+  Agregar al carrito
+</button>
+
+<script>
+  const boton = document.getElementById("agregarAlCarrito");
+  boton.addEventListener("click", async () => {
+    const productoId = boton.value;
+    const carritoId = "68257d994ce41e0f3f7375f6"; 
+
+    try {
+      const response = await fetch(`/api/carts/${carritoId}/product/${productoId}`, {
+        method: "POST",
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        alert("Producto agregado al carrito");
+      } else {
+        alert("Error al agregar producto: " + data.error);
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      alert("Error en la solicitud");
+    }
+  });
+</script>

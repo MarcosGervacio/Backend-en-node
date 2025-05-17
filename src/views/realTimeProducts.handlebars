@@ -36,16 +36,31 @@
 
 <br><br>
 <h2 style="text-align: center;">Productos</h2>
+<button class="cart btn btn-success" id="cart" value="68257d994ce41e0f3f7375f6">Carrito</button>
 <br><br>
 
-<div class="mx-auto" style="width: 300px;">
+<div class="mx-auto" style="width: 400px;">
     <ul id="lista-productos">
         {{#each productos}}
-            <li>{{title}} - ${{price}}
+            <li>{{description}} - ${{price}}
               <button class="eliminarProducto btn btn-danger" value={{id}}>X</button>
+              <button class="infoProducto btn btn-success" value={{id}}>INFO</button>
             </li>
         {{/each}}
     </ul>
+</div>
+
+<div class="pagination mt-4 text-center">
+    {{#if hasPrevPage}}
+      <a class="btn btn-outline-primary" href="/realTimeProducts?page={{prevPage}}">Anterior</a>
+    {{/if}}
+
+    <span class="mx-2">Página {{page}} de {{totalPages}}</span>
+
+    {{#if hasNextPage}}
+      <a class="btn btn-outline-primary" href="/realTimeProducts?page={{nextPage}}">Siguiente</a>
+    {{/if}}
+  </div>
 </div>
 
 <script>
@@ -70,8 +85,18 @@ socket.on("actualizarProductos", (productos) => {
         });
         });
 
+        const botonInfo = document.createElement("button");
+        botonInfo.classList.add("infoProducto", "btn", "btn-success");
+        botonInfo.textContent = "INFO";
+        botonInfo.value = producto.id;
+        botonInfo.addEventListener('click', () => {
+            window.location.href = `/products/${producto.id}`;
+        });
+
+
         listaProductos.appendChild(li);
         li.appendChild(botonEliminar);
+        li.appendChild(botonInfo);
     });
 });
 
@@ -102,12 +127,12 @@ formulario.addEventListener("submit", async (e) => {
             },
             body: JSON.stringify(producto)
         });
-        title.value = "";
-        description.value  = "";
-        code.value= "";
-        price.value = "";
-        stock.value = "";
-        category.value = "";
+     //  title.value = "";
+       // description.value  = "";
+      //  code.value= "";
+      //  price.value = "";
+      //  stock.value = "";
+      //  category.value = "";
 })
 
 
@@ -120,5 +145,22 @@ eliminarProducto.forEach(boton => {
         })
     })
 })
+
+let infoProducto = document.querySelectorAll('.infoProducto');
+infoProducto.forEach(boton => {
+    boton.addEventListener('click', () => {
+        const id = boton.value;
+        window.location.href = `/products/${id}`;
+    })
+})
+
+let cart = document.querySelectorAll('.cart');
+cart.forEach(boton => {
+    boton.addEventListener('click', () => {
+        const id = boton.value;
+        window.location.href = `/cart/${id}`;
+    })
+})
+
 
 </script>
